@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,8 +23,21 @@ namespace PetQuiz
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(opts =>
+            opts.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ValidateAntiForgeryTokenAttribute());
+            });
+
+            services.AddAntiforgery(AntiforgeryOptions =>
+            {
+                AntiforgeryOptions.HeaderName = "X-XSRF-TOKEN";
+            });
+            services.AddCors();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -45,11 +61,18 @@ namespace PetQuiz
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(configurePolicy =>
+            {
+                configurePolicy.AllowAnyHeader();
+                configurePolicy.AllowAnyMethod();
+                configurePolicy.AllowCredentials();
+            });
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
