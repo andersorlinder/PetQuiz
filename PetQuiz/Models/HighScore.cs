@@ -9,6 +9,6 @@ namespace PetQuiz.Models
     {
         public string NickName { get; set; }
         public int Score { get; set; }
-
+        public DateTime TimePlayed { get; set; }
     }
 }

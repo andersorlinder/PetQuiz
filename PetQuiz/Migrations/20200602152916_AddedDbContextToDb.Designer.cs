@@ -10,7 +10,7 @@ using PetQuiz;
 namespace PetQuiz.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200526132900_AddedDbContextToDb")]
+    [Migration("20200602152916_AddedDbContextToDb")]
     partial class AddedDbContextToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,10 +176,6 @@ namespace PetQuiz.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NickName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")

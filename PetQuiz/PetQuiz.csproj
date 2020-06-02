@@ -35,6 +35,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200526132021_AddedDbContextToDb.cs" />
     <Compile Remove="Migrations\20200526132021_AddedDbContextToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200526132900_AddedDbContextToDb.cs" />
+    <Compile Remove="Migrations\20200526132900_AddedDbContextToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200602152721_AddedDbContextToDb.cs" />
+    <Compile Remove="Migrations\20200602152721_AddedDbContextToDb.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

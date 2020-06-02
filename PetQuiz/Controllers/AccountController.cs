@@ -29,6 +29,7 @@ namespace PetQuiz.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
+            Console.WriteLine(result);
             if (result.Succeeded)
             {
                 return Ok();
@@ -41,7 +42,7 @@ namespace PetQuiz.Controllers
         [Route("/register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var result = await userManager.CreateAsync(new User { UserName = request.Email }, request.Password);
+            var result = await userManager.CreateAsync(new User {UserName = request.Email }, request.Password);
             if (result.Succeeded)
             {
                 return Ok();

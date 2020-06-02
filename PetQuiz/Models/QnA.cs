@@ -16,7 +16,5 @@ namespace PetQuiz.Models
         public string WrongAnswerOne { get; set; }
         [Required]
         public string WrongAnswerTwo { get; set; }
-
-
     }
 }
