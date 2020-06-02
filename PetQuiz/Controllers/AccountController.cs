@@ -31,11 +31,6 @@ namespace PetQuiz.Controllers
             var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
             if (result.Succeeded)
             {
-                var tokens = antiForgery.GetAndStoreTokens(HttpContext);
-                Response.Cookies.Append("XSRF-REQUEST-TOKEN", tokens.RequestToken, new Microsoft.AspNetCore.Http.CookieOptions
-                {
-                    HttpOnly = false
-                });
                 return Ok();
             }
             return BadRequest();
