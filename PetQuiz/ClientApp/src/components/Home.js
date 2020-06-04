@@ -8,16 +8,36 @@ export class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {username: '', password: '', loggedIn: false}
-
+        this.state = { username: '', password: '', loggedIn: false }
+        this.changeLoggedIn = this.changeLoggedIn.bind(this);
+    }
+    changeLoggedIn() {
+        this.setState({
+            loggedIn: true
+        });
     }
 
     render() {
+        const loggedIn = this.state.loggedIn;
+        let greeting;
+        let button;
+        let login;
+        let register;
+        if (loggedIn) {
+            greeting = <h1>Welcome to the game!</h1>
+            button = <button>Play game</button>
+        } else {
+           login = <Login loggedIn={this.state.loggedIn} onSubmit={this.changeLoggedIn} />
+            register = <Register />
+        }
         return (
             <div>
-                <Login />
-                <Register />
+                {login}
+                {register}
+                {greeting}
+                {button}
             </div>
+
         );
     }
 }

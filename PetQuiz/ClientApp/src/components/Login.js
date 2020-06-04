@@ -10,7 +10,7 @@ export class Login extends Component {
             username: '',
             password: ''
         }
-
+        this.handleLogIn = this.handleLogIn.bind(this);
     }
 
     onUsernameChange = (e) => {
@@ -25,6 +25,12 @@ export class Login extends Component {
         e.preventDefault();
         this.login();
         alert("Congrats, you're submit button is working!");
+        
+    }
+
+    handleLogIn() {
+        const isLoggedIn = true;
+        this.props.onSubmit(isLoggedIn);
     }
 
     //componentDidMount() {
@@ -41,6 +47,9 @@ export class Login extends Component {
             credentials: 'include',
             body: JSON.stringify({ Email: this.state.username, Password: this.state.password })
         });
+        if (loginResponse.status === 200) {
+            this.handleLogIn()           
+        }
         console.log(loginResponse);
     }
 
