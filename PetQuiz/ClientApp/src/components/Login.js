@@ -32,7 +32,7 @@ export class Login extends Component {
     //}
 
     async login() {
-        const loginResponse = await fetch('https://localhost:44342/login', {
+        const loginResponse = await fetch('https://localhost:5001/login', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

@@ -9,7 +9,6 @@ namespace PetQuiz
 {
     public class User : IdentityUser
     {
-        [Required]
-        public string NickName { get; set; }
+      
     }
 }
