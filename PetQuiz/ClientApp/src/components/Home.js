@@ -1,29 +1,22 @@
 import React, { Component } from 'react';
+import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Login } from './Login';
+import { Register } from './Register';
 
 export class Home extends Component {
     static displayName = Home.name;
 
     constructor(props) {
         super(props);
-        this.state = {username: '', }
+        this.state = {username: '', password: '', loggedIn: false}
 
     }
 
     render() {
         return (
             <div>
-                <label>User name</label>
-                <input type="text" value={this.state.username} />
-                <br />
-                <br />
-                <label>Password</label>
-                <input type="text" value={this.state.password/>
-                <br />
-                <br />
-                <button>Log in</button>
-                <br />
-                <br />
-                <a>Create account</a>
+                <Login />
+                <Register />
             </div>
         );
     }
