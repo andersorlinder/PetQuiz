@@ -150,6 +150,132 @@ namespace PetQuiz.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("PetQuiz.Models.QnA", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CorrectAnswer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WrongAnswerOne")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WrongAnswerTwo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CorrectAnswer = "Husse",
+                            Question = "Vad kallas ett husdjurs pappa?",
+                            WrongAnswerOne = "Matte",
+                            WrongAnswerTwo = "Knatte"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CorrectAnswer = "Labrador",
+                            Question = "Vilken är Sveriges vanligaste hundras?",
+                            WrongAnswerOne = "Schäfer",
+                            WrongAnswerTwo = "Golden Retriver"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CorrectAnswer = "Ragdoll",
+                            Question = "Vilken är sveriges vanligaste kattras?",
+                            WrongAnswerOne = "Perser",
+                            WrongAnswerTwo = "Norsk Skogskatt"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CorrectAnswer = "162 kg",
+                            Question = "Hur mycket vägde världens tyngsta hund?",
+                            WrongAnswerOne = "118 kg",
+                            WrongAnswerTwo = "95 kg"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CorrectAnswer = "För mat",
+                            Question = "Varför blev marsvinet domesticerat?",
+                            WrongAnswerOne = "Sällskapsdjur",
+                            WrongAnswerTwo = "Arbetsdjur"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CorrectAnswer = "Liten havsgris",
+                            Question = "Vad betyder namnet marsvin?",
+                            WrongAnswerOne = "Elakt svin",
+                            WrongAnswerTwo = "Årgångsvin"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CorrectAnswer = "Fibonacci",
+                            Question = "Vilken talföljd har skapats av kaniners förökande?",
+                            WrongAnswerOne = "Primtalen",
+                            WrongAnswerTwo = "Exponentiell"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CorrectAnswer = "Sork",
+                            Question = "Vilken underfamilj kommer hamstern ifrån?",
+                            WrongAnswerOne = "Råtta",
+                            WrongAnswerTwo = "Katt"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CorrectAnswer = "700 g",
+                            Question = "Hur mycket väger en genomsnittlig tamråtta?",
+                            WrongAnswerOne = "1200 g",
+                            WrongAnswerTwo = "300 g"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CorrectAnswer = "Doris",
+                            Question = "Vad är det vanligaste namnet på en honkatt?",
+                            WrongAnswerOne = "Osofin",
+                            WrongAnswerTwo = "Siri"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CorrectAnswer = "Kattdjur",
+                            Question = "Vilket djur är hyenor närmast besläktade med?",
+                            WrongAnswerOne = "Hunddjur",
+                            WrongAnswerTwo = "Svin"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CorrectAnswer = "En katt",
+                            Question = "Vad är en orientalisk korthår?",
+                            WrongAnswerOne = "En häst",
+                            WrongAnswerTwo = "En kanin"
+                        });
+                });
+
             modelBuilder.Entity("PetQuiz.User", b =>
                 {
                     b.Property<string>("Id")

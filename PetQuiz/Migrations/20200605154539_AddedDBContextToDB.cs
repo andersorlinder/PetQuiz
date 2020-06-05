@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetQuiz.Migrations
 {
-    public partial class AddedDbContextToDb : Migration
+    public partial class AddedDBContextToDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,22 @@ namespace PetQuiz.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Questions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Question = table.Column<string>(nullable: false),
+                    CorrectAnswer = table.Column<string>(nullable: false),
+                    WrongAnswerOne = table.Column<string>(nullable: false),
+                    WrongAnswerTwo = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Questions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +168,25 @@ namespace PetQuiz.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Questions",
+                columns: new[] { "Id", "CorrectAnswer", "Question", "WrongAnswerOne", "WrongAnswerTwo" },
+                values: new object[,]
+                {
+                    { 1, "Husse", "Vad kallas ett husdjurs pappa?", "Matte", "Knatte" },
+                    { 2, "Labrador", "Vilken är Sveriges vanligaste hundras?", "Schäfer", "Golden Retriver" },
+                    { 3, "Ragdoll", "Vilken är sveriges vanligaste kattras?", "Perser", "Norsk Skogskatt" },
+                    { 4, "162 kg", "Hur mycket vägde världens tyngsta hund?", "118 kg", "95 kg" },
+                    { 5, "För mat", "Varför blev marsvinet domesticerat?", "Sällskapsdjur", "Arbetsdjur" },
+                    { 6, "Liten havsgris", "Vad betyder namnet marsvin?", "Elakt svin", "Årgångsvin" },
+                    { 7, "Fibonacci", "Vilken talföljd har skapats av kaniners förökande?", "Primtalen", "Exponentiell" },
+                    { 8, "Sork", "Vilken underfamilj kommer hamstern ifrån?", "Råtta", "Katt" },
+                    { 9, "700 g", "Hur mycket väger en genomsnittlig tamråtta?", "1200 g", "300 g" },
+                    { 10, "Doris", "Vad är det vanligaste namnet på en honkatt?", "Osofin", "Siri" },
+                    { 11, "Kattdjur", "Vilket djur är hyenor närmast besläktade med?", "Hunddjur", "Svin" },
+                    { 12, "En katt", "Vad är en orientalisk korthår?", "En häst", "En kanin" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -208,6 +243,9 @@ namespace PetQuiz.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

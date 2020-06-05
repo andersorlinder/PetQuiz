@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PetQuiz.Data;
+using PetQuiz.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -16,10 +18,11 @@ namespace PetQuiz
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Seed();
             base.OnModelCreating(modelBuilder);
-
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<QnA> Questions { get; set; }
     }
 }
