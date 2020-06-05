@@ -10,8 +10,8 @@ using PetQuiz;
 namespace PetQuiz.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200605154539_AddedDBContextToDB")]
-    partial class AddedDBContextToDB
+    [Migration("20200605212747_AddedDbContextToDb")]
+    partial class AddedDbContextToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

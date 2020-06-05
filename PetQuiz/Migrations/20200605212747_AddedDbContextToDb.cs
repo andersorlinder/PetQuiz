@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetQuiz.Migrations
 {
-    public partial class AddedDBContextToDB : Migration
+    public partial class AddedDbContextToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

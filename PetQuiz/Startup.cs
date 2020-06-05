@@ -28,16 +28,6 @@ namespace PetQuiz
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new ValidateAntiForgeryTokenAttribute());
-            });
-
-            services.AddAntiforgery(AntiforgeryOptions =>
-            {
-                AntiforgeryOptions.HeaderName = "X-XSRF-TOKEN";
-            });
-            services.AddCors();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -60,13 +50,6 @@ namespace PetQuiz
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
-            app.UseCors(configurePolicy =>
-            {
-                configurePolicy.AllowAnyHeader();
-                configurePolicy.AllowAnyMethod();
-                configurePolicy.AllowCredentials();
-            });
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
