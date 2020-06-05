@@ -60,5 +60,14 @@ namespace PetQuiz.Controllers
 
             return Unauthorized();
         }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        [Route("/logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return Ok();
+        }
     }
 }

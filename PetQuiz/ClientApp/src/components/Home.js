@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import { Login } from './Login';
-import { Register } from './Register';
+import { LoginReg } from './LoginReg';
+import { Game } from './Game';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -11,31 +11,27 @@ export class Home extends Component {
         this.state = { username: '', password: '', loggedIn: false }
         this.changeLoggedIn = this.changeLoggedIn.bind(this);
     }
-    changeLoggedIn() {
+
+    changeLoggedIn(status) {
         this.setState({
-            loggedIn: true
+            loggedIn: status
         });
     }
 
     render() {
         const loggedIn = this.state.loggedIn;
         let greeting;
-        let button;
         let login;
-        let register;
         if (loggedIn) {
-            greeting = <h1>Welcome to the game!</h1>
-            button = <button>Play game</button>
+            greeting = <Game loggedIn={this.state.loggedIn} onClick={this.changeLoggedIn} />
+            
         } else {
-           login = <Login loggedIn={this.state.loggedIn} onSubmit={this.changeLoggedIn} />
-            register = <Register />
+           login = <LoginReg loggedIn={this.state.loggedIn} onSubmit={this.changeLoggedIn} />
         }
         return (
             <div>
                 {login}
-                {register}
                 {greeting}
-                {button}
             </div>
 
         );

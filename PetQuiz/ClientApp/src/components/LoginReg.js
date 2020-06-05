@@ -1,8 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
-export class Login extends Component {
-    static displayName = Login.name;
+export class LoginReg extends Component {
+    static displayName = LoginReg.name;
 
     constructor(props) {
         super(props);
@@ -21,16 +21,19 @@ export class Login extends Component {
         this.setState({ password: e.target.value });
     }
 
-    handleSubmit = (e) => {
+    handleLoginSubmit = (e) => {
         e.preventDefault();
         this.login();
-        alert("Congrats, you're submit button is working!");
-        
+        alert("Congrats, you're now logged in!");
+    }
+
+    handleRegisterSubmit = (e) => {
+        e.preventDefault();
+        this.register();
     }
 
     handleLogIn() {
-        const isLoggedIn = true;
-        this.props.onSubmit(isLoggedIn);
+        this.props.onSubmit(true);
     }
 
     //componentDidMount() {
@@ -48,14 +51,28 @@ export class Login extends Component {
             body: JSON.stringify({ Email: this.state.username, Password: this.state.password })
         });
         if (loginResponse.status === 200) {
-            this.handleLogIn()           
+            this.handleLogIn()
         }
-        console.log(loginResponse);
+    }
+
+    async register() {
+        const registerResponse = await fetch('https://localhost:5001/register', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({ Email: this.state.username, Password: this.state.password })
+        });
+        if (registerResponse.status === 200) {
+            this.login();
+        }
     }
 
     render() {
         return (
-            <Form onSubmit={this.handleSubmit}>
+            <Form>
                 <FormGroup>
                     <Label for="exampleEmail">Email</Label>
                     <Input type="email" name="email" id="exampleEmail" onChange={this.onUsernameChange} required />
@@ -64,7 +81,8 @@ export class Login extends Component {
                     <Label for="examplePassword">Password</Label>
                     <Input type="password" name="password" id="examplePassword" onChange={this.onPasswordChange} required/>
                 </FormGroup>
-                <Button type="submit">Submit</Button>
+                <Button onClick={this.handleLoginSubmit}>Log in</Button>
+                <Button onClick={this.handleRegisterSubmit}>Register</Button>
             </Form>
         );
     }

@@ -24,28 +24,13 @@ export class Register extends Component {
         this.setState({ password: e.target.value });
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.register();
-        alert("Congrats, you're submit button is working!");
-    }
+    
 
     //componentDidMount() {
     //    this.login();
     //}
 
-    async register() {
-        const registerResponse = await fetch('https://localhost:5001/register', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            credentials: 'include',
-            body: JSON.stringify({ Email: this.state.username, Password: this.state.password })
-        });
-        console.log(registerResponse);
-    }
+    
 
     render() {
         return (
