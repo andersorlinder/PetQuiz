@@ -1,8 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
-export class Game extends Component {
-    static displayName = Game.name;
+export class QuizMenu extends Component {
+    static displayName = QuizMenu.name;
 
     constructor(props) {
         super(props);
@@ -33,13 +33,28 @@ export class Game extends Component {
         }
     }
 
+    async getQuestions() {
+        const QnAResponse = await fetch('https://localhost:5001/getqna', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            credentials: 'include',
+            body: 
+        });
+        if (QnAResponse.status === 200) {
+            console.log(QnAResponse);
+        }
+    }
+
     render() {
 
         return (
             <div>
-                <button outline color="primary" size="lg">Play</button>
-                <button outline color="info" size="lg">Highscore</button>
-                <button outline color="danger" onClick={this.handleLogoutSubmit}>Log out</button>
+                <Button outline color="primary" size="lg" onClick={this.getQuestions} > Play</Button>
+                <Button outline color="info" size="lg">Highscore</Button>
+                <Button outline color="danger" size="lg" onClick={this.handleLogoutSubmit}>Log out</Button>
             </div>
         );
     }
