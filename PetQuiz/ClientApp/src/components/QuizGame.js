@@ -56,13 +56,17 @@ export class QuizGame extends Component {
         console.log(err);
     }
 
+    renderQuestion = () => {
+        return <Question QnA={this.state.currentQuestion} onClick={this.onClickHandler} />;
+    }
+
     render() {
         return (
             <div>
                 {!this.state.isLoaded ?
-                    <p className="color--pale">Loading...</p> :
+                    <p className="color--pale">Loading1...</p> :
                     this.state.QNr < 5 ?
-                        <Question QnA={this.state.currentQuestion} onClick={this.onClickHandler} /> :
+                        this.renderQuestion() :
                         <GameScore  />
                 }
             </div>
