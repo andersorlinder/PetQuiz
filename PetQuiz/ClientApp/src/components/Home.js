@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { LoginReg } from './LoginReg';
-import { Game } from './Game';
+import { QuizMenu } from './QuizMenu';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -23,7 +23,7 @@ export class Home extends Component {
         let greeting;
         let login;
         if (loggedIn) {
-            greeting = <Game loggedIn={this.state.loggedIn} onClick={this.changeLoggedIn} />
+            greeting = <QuizMenu loggedIn={this.state.loggedIn} onClick={this.changeLoggedIn} />
             
         } else {
            login = <LoginReg loggedIn={this.state.loggedIn} onSubmit={this.changeLoggedIn} />
