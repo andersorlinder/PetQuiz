@@ -46,15 +46,22 @@ export class Question extends Component {
         if (e.value === this.correctAnswer) {
             score++;
         }
+        this.setState({
+            isLoaded: false,
+            question: '',
+            correctAnswer: '',
+            wrongAnswerOne: '',
+            wrongAnswerTwo: ''
+        })
         this.props.onClick(score);
     }
 
     render() {
         return (
             <div>
-                {!this.state.isLoaded ?
-                    <p>Loading...</p> :
-                    this.renderButtons()
+                {this.state.isLoaded ?
+                    this.renderButtons() :
+                    <p>Loading2...</p>
                 }
             </div>
         );
