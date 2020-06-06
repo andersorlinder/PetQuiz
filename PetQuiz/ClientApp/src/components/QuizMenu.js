@@ -7,7 +7,11 @@ export class QuizMenu extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { QnAs: [], isPlayingQuiz: false };
+        this.state = {
+            QnAs: [],
+            isPlayingQuiz: false,
+            strang: ''
+        };
         this.handleLogOut = this.handleLogOut.bind(this);
         this.setPlayState = this.setPlayState.bind(this);
     }
@@ -26,6 +30,8 @@ export class QuizMenu extends Component {
         this.setState({
             isPlayingQuiz: true
         });
+        console.log(this.state.isPlayingQuiz);
+
     }
 
     async logout() {
@@ -45,25 +51,22 @@ export class QuizMenu extends Component {
     
 
     content = () => {
-        if (this.isPlayingQuiz) {
-            return (
-                <QuizGame username={this.props.username} />
-            );
-        } else {
-            return (
-                <div>
-                    <Button outline color="primary" size="lg" onClick={this.setPlayState}>Play</Button>
-                    <Button outline color="info" size="lg">Highscore</Button>
-                    <Button outline color="danger" size="lg" onClick={this.handleLogoutSubmit}>Log out</Button>
-                </div>
-            );
-        }
-    }
-
-    render() {          
         return (
             <div>
-                {this.content()}
+                <Button outline color="primary" size="lg" onClick={this.setPlayState}>Play</Button>
+                <Button outline color="info" size="lg">Highscore</Button>
+                <Button outline color="danger" size="lg" onClick={this.handleLogoutSubmit}>Log out</Button>
+            </div>
+        );
+    }
+
+    render() {
+        return (
+            <div>
+                {this.state.isPlayingQuiz ?
+                    <QuizGame username={this.props.username} /> :
+                    this.content()
+                }
             </div>
         );
     }

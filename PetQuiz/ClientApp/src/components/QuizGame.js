@@ -42,12 +42,11 @@ export class QuizGame extends Component {
     render() {
         return (
             <div>
+                <h1>The game is playing!</h1>
                 {!this.state.isLoaded ?
                     <p className="color--pale">Loading...</p> :
                     <Question question={this.state.QnAs[0]} />
-                    
                 }
-             <h1>The game is playing!</h1>
             </div>
         );
     }
