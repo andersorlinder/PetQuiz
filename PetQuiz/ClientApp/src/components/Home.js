@@ -23,17 +23,16 @@ export class Home extends Component {
         let greeting;
         let login;
         if (loggedIn) {
-            greeting = <QuizMenu loggedIn={this.state.loggedIn} onClick={this.changeLoggedIn} />
+            greeting = <QuizMenu loggedIn={this.state.loggedIn} onClick={this.changeLoggedIn} username={this.state.username} />;
             
         } else {
-           login = <LoginReg loggedIn={this.state.loggedIn} onSubmit={this.changeLoggedIn} />
+            login = <LoginReg loggedIn={this.state.loggedIn} onSubmit={this.changeLoggedIn} />;
         }
         return (
             <div>
                 {login}
                 {greeting}
             </div>
-
         );
     }
 }
