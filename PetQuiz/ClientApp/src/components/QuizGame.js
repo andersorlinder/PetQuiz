@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Question } from './Question';
+import { GameScore } from './GameScore'
 
 
 export class QuizGame extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { QnAs: [], isLoaded: false };
+        this.state = {
+            QnAs: [], currentQuestion: {}, isLoaded: false, QNr: 0, score: 0 };
         this.getQuestions = this.getQuestions.bind(this);
+        this.onClickHandler = this.onClickHandler.bind(this);
     }
 
     componentDidMount() {
@@ -31,6 +34,20 @@ export class QuizGame extends Component {
         const QnAs = eval(QnAResponse);
         this.setState({
             QnAs,
+            currentQuestion: QnAs[0],
+            isLoaded: true
+        });
+        console.log(this.state.isLoaded);
+    }
+
+    onClickHandler(qScore) {
+        this.setState({
+            isLoaded: false,
+            QNr: this.state.QNr++,
+            score: this.state.score + qScore,
+            currentQuestion: this.state.QnAs[this.state.QNr]
+        });
+        this.setState({
             isLoaded: true
         });
     }
@@ -42,10 +59,11 @@ export class QuizGame extends Component {
     render() {
         return (
             <div>
-                <h1>The game is playing!</h1>
                 {!this.state.isLoaded ?
                     <p className="color--pale">Loading...</p> :
-                    <Question question={this.state.QnAs[0]} />
+                    this.state.QNr < 5 ?
+                        <Question QnA={this.state.currentQuestion} onClick={this.onClickHandler} /> :
+                        <GameScore  />
                 }
             </div>
         );

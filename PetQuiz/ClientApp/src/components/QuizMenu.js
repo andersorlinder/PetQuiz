@@ -26,11 +26,9 @@ export class QuizMenu extends Component {
     }
 
     setPlayState() {
-        console.log(this.state.isPlayingQuiz);
         this.setState({
             isPlayingQuiz: true
         });
-        console.log(this.state.isPlayingQuiz);
 
     }
 
