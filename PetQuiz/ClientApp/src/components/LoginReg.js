@@ -24,7 +24,6 @@ export class LoginReg extends Component {
     handleLoginSubmit = (e) => {
         e.preventDefault();
         this.login();
-        alert("Congrats, you're now logged in!");
     }
 
     handleRegisterSubmit = (e) => {

@@ -1,13 +1,19 @@
 ﻿import React, { Component } from 'react';
 import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {QuizGame} from './QuizGame'
 
 export class QuizMenu extends Component {
     static displayName = QuizMenu.name;
 
     constructor(props) {
         super(props);
-        this.state = { };
+        this.state = {
+            QnAs: [],
+            isPlayingQuiz: false,
+            strang: ''
+        };
         this.handleLogOut = this.handleLogOut.bind(this);
+        this.setPlayState = this.setPlayState.bind(this);
     }
 
     handleLogoutSubmit = (e) => {
@@ -17,6 +23,15 @@ export class QuizMenu extends Component {
 
     handleLogOut() {
         this.props.onClick(false);
+    }
+
+    setPlayState() {
+        console.log(this.state.isPlayingQuiz);
+        this.setState({
+            isPlayingQuiz: true
+        });
+        console.log(this.state.isPlayingQuiz);
+
     }
 
     async logout() {
@@ -33,33 +48,25 @@ export class QuizMenu extends Component {
         }
     }
 
-    async getQuestions() {
-        const QnAResponse = await fetch('https://localhost:5001/getqna', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            credentials: 'include'
-        })
-            .then(response => response.json())
-            .catch(err => this.fetchFailure(err));
+    
 
-        const json = eval(QnAResponse);
-        console.log(json[1].Question); //Debug testing
-    }
-
-    static fetchFailure(err) {
-        console.log(err);
+    content = () => {
+        return (
+            <div>
+                <Button outline color="primary" size="lg" onClick={this.setPlayState}>Play</Button>
+                <Button outline color="info" size="lg">Highscore</Button>
+                <Button outline color="danger" size="lg" onClick={this.handleLogoutSubmit}>Log out</Button>
+            </div>
+        );
     }
 
     render() {
-
         return (
             <div>
-                <Button outline color="primary" size="lg" onClick={this.getQuestions} > Play</Button>
-                <Button outline color="info" size="lg">Highscore</Button>
-                <Button outline color="danger" size="lg" onClick={this.handleLogoutSubmit}>Log out</Button>
+                {this.state.isPlayingQuiz ?
+                    <QuizGame username={this.props.username} /> :
+                    this.content()
+                }
             </div>
         );
     }
