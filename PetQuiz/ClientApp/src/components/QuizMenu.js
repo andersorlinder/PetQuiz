@@ -6,7 +6,7 @@ export class QuizMenu extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { };
         this.handleLogOut = this.handleLogOut.bind(this);
     }
 
@@ -40,12 +40,17 @@ export class QuizMenu extends Component {
                 'Content-Type': 'application/json'
             },
             method: 'POST',
-            credentials: 'include',
-            body: 
-        });
-        if (QnAResponse.status === 200) {
-            console.log(QnAResponse);
-        }
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .catch(err => this.fetchFailure(err));
+
+        const json = eval(QnAResponse);
+        console.log(json[1].Question); //Debug testing
+    }
+
+    static fetchFailure(err) {
+        console.log(err);
     }
 
     render() {

@@ -14,13 +14,11 @@ namespace PetQuiz.Controllers
     {
         private UserManager<User> userManager;
         private SignInManager<User> signInManager;
-        private IAntiforgery antiForgery;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IAntiforgery antiForgery)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            this.antiForgery = antiForgery;
         }
 
         [HttpPost]
