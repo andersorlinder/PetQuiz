@@ -9,17 +9,23 @@ export class QuizGame extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            QnAs: [], currentQuestion: {}, isLoaded: false, QNr: 0, score: 0 };
-        this.getQuestions = this.getQuestions.bind(this);
+            isPlaying: true,
+            score: 0
+        };
+
         this.onClickHandler = this.onClickHandler.bind(this);
     }
 
-    componentDidMount() {
-        if (!this.state.isLoaded)
-            this.getQuestions();
+    onClickHandler(qScore, status) {
+        this.setState({
+            isPlaying: status,
+            score: qScore
+        });
     }
 
-    async getQuestions() {
+
+
+    async SaveScore() {
         const QnAResponse = await fetch('https://localhost:5001/getqna', {
             headers: {
                 'Accept': 'application/json',
@@ -33,22 +39,7 @@ export class QuizGame extends Component {
 
         const QnAs = eval(QnAResponse);
         this.setState({
-            QnAs,
-            currentQuestion: QnAs[0],
-            isLoaded: true
-        });
-        console.log(this.state.isLoaded);
-    }
-
-    onClickHandler(qScore) {
-        this.setState({
-            isLoaded: false,
-            QNr: this.state.QNr++,
-            score: this.state.score + qScore,
-            currentQuestion: this.state.QnAs[this.state.QNr]
-        });
-        this.setState({
-            isLoaded: true
+            QnAs
         });
     }
 
@@ -56,18 +47,12 @@ export class QuizGame extends Component {
         console.log(err);
     }
 
-    renderQuestion = () => {
-        return <Question QnA={this.state.currentQuestion} onClick={this.onClickHandler} />;
-    }
-
     render() {
         return (
             <div>
-                {!this.state.isLoaded ?
-                    <p className="color--pale">Loading1...</p> :
-                    this.state.QNr < 5 ?
-                        this.renderQuestion() :
-                        <GameScore  />
+                {this.state.isPlaying ?
+                    <Question onClick={this.onClickHandler} /> :
+                    <GameScore score={this.state.score} />
                 }
             </div>
         );

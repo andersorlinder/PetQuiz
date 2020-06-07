@@ -6,13 +6,15 @@ export class GameScore extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { question: '', correctAnswer: '', wrongAnswerOne: '', wrongAnswerTwo: '' };
+        this.state = {};
     }
 
     render() {
         return (
             <div>
-                <h1>Hej</h1>
+                <h1>Resultat</h1>
+                <p>Din score blev {this.props.score} av 5!</p>
+                
             </div>
         );
     }
