@@ -5,7 +5,7 @@ import { QuizGame } from './QuizGame';
 export class Question extends Component {
     constructor(props) {
         super(props);
-        this.state = { QnAs: [], shuffledAnswers: [], answer: '', isLoaded: false, QNr: 0, score: 0, buttonClicked: false, buttonInactive: false, buttonColor: 'primary', buttonRight: 'success', buttonWrong: 'danger' };
+        this.state = { QnAs: [], shuffledAnswers: [], answerstatus: '', isLoaded: false, QNr: 0, score: 0, buttonClicked: false, buttonInactive: false};
         this.getQuestions = this.getQuestions.bind(this);
         this.onAnswerClick = this.onAnswerClick.bind(this);
         this.renderButtons = this.renderButtons.bind(this);
@@ -15,7 +15,10 @@ export class Question extends Component {
     async componentDidMount() {
         if (!this.state.isLoaded) {
             await this.getQuestions()
-            this.setState({ isLoaded: true });
+            
+            this.setState({
+                isLoaded: true
+            });
         }
     }
 
@@ -35,7 +38,20 @@ export class Question extends Component {
         this.setState({
             QnAs,
         });
+        this.getShuffledAnswers()
         console.log(this.state.QnAs[0]);
+        console.log(this.state.shuffledAnswers);
+    }
+
+    getShuffledAnswers() {
+        console.log(this.state.QnAs);
+        var array = [this.state.QnAs[this.state.QNr].CorrectAnswer, this.state.QnAs[this.state.QNr].WrongAnswerOne, this.state.QnAs[this.state.QNr].WrongAnswerTwo];
+        if (this.state.buttonInactive) {
+            this.shuffleArray(array);
+        }
+        this.setState({
+            shuffledAnswers: array,
+        });
     }
 
     shuffleArray = (array) => {
@@ -43,25 +59,21 @@ export class Question extends Component {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
+
+        this.setState({
+            
+        });
+        console.log(this.state.shuffledAnswers);
     }
 
     renderButtons = () => {
-        if (!this.state.buttonInactive) {
-            console.log(this.state.QNr);
-            var shuffledAnswers = [this.state.QnAs[this.state.QNr].CorrectAnswer, this.state.QnAs[this.state.QNr].WrongAnswerOne, this.state.QnAs[this.state.QNr].WrongAnswerTwo];
-            //this.shuffleArray(shuffledAnswers);
-            this.setState({
-                shuffledAnswers
-            });
-        }
-
         return (
             <div>
                 <h1 >{this.state.QnAs[this.state.QNr].Question}</h1>
                 <div>
-                    <Button color={this.state.buttonColor} size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[0]}</Button>
-                    <Button color={this.state.buttonColor} size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[1]}</Button>
-                    <Button color={this.state.buttonColor} size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[2]}</Button>
+                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[0]}</Button>
+                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[1]}</Button>
+                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[2]}</Button>
                 </div>
                 <Button onClick={this.onNextClick}>Next Question</Button>
                 <p>{this.state.answer}</p>
@@ -69,32 +81,34 @@ export class Question extends Component {
     }
 
     onAnswerClick(e) {
-        if (e.value === this.correctAnswer) {
+        if (e.target.innerText === this.state.QnAs[this.state.QNr].CorrectAnswer) {
             this.setState({
                 buttonInactive: true,
                 score: this.state.score,
-                answer: 'Rätt svar!'
+                answerstatus: 'Korrekt!'
             });
         } else {
             this.setState({
                 buttonInactive: true,
-                buttonColor: 'danger',
-                answer: 'Fel svar!'
+                answerstatus: 'Fel svar!'
             })
         }
     }
 
     onNextClick() {
+
         if (this.state.QNr >= 5) {
             this.props.onClick(this.state.score, false);
         } else {
+
             this.setState({
                 isLoaded: false,
-                QNr: this.state.QNr + 1
+                QNr: this.state.QNr + 1,
+                answerstatus: ''
             });
+            this.getShuffledAnswers();
             this.setState({
                 isLoaded: true,
-                buttonColor: 'primary',
                 buttonInactive: false
             });
         }
@@ -104,7 +118,7 @@ export class Question extends Component {
         return (
             <div>
                 {!this.state.isLoaded ?
-                    <p>Loading2...</p> :
+                    <p>Loading...</p> :
                     this.renderButtons()
                 }
             </div>
