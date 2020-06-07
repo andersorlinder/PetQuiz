@@ -10,10 +10,18 @@ export class QuizGame extends Component {
         super(props);
         this.state = {
             isPlaying: true,
-            score: 0
+            score: 0,
+            username: 'Sofia'
         };
 
         this.onClickHandler = this.onClickHandler.bind(this);
+        this.goBack = this.goBack.bind(this)
+    }
+
+    async componentDidMount() {
+        this.setState({
+            username: this.props.username
+        })
     }
 
     onClickHandler(qScore, status) {
@@ -21,26 +29,26 @@ export class QuizGame extends Component {
             isPlaying: status,
             score: qScore
         });
+        this.saveScore();
     }
 
+    goBack() {
+        this.props.toMenu();
+    }
 
-
-    async SaveScore() {
-        const QnAResponse = await fetch('https://localhost:5001/getqna', {
+    async saveScore() {
+        const saveScoreResponse = await fetch('https://localhost:5001/savescore', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             method: 'POST',
-            credentials: 'include'
-        })
-            .then(response => response.json())
-            .catch(err => this.fetchFailure(err));
-
-        const QnAs = eval(QnAResponse);
-        this.setState({
-            QnAs
+            credentials: 'include',
+            body: JSON.stringify({ Username: this.state.username, Score: this.state.score })
         });
+        if (saveScoreResponse === 200) {
+            console.log("Result saved")
+        }
     }
 
     static fetchFailure(err) {
@@ -52,7 +60,7 @@ export class QuizGame extends Component {
             <div>
                 {this.state.isPlaying ?
                     <Question onClick={this.onClickHandler} /> :
-                    <GameScore score={this.state.score} />
+                    <GameScore score={this.state.score} toMenu={this.goBack}/>
                 }
             </div>
         );

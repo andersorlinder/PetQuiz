@@ -10,8 +10,8 @@ using PetQuiz;
 namespace PetQuiz.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200605212747_AddedDbContextToDb")]
-    partial class AddedDbContextToDb
+    [Migration("20200607221729_AddDBContxtToDB")]
+    partial class AddDBContxtToDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -150,6 +150,28 @@ namespace PetQuiz.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("PetQuiz.Models.HighScore", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("NickName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TimePlayed")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HighScores");
                 });
 
             modelBuilder.Entity("PetQuiz.Models.QnA", b =>

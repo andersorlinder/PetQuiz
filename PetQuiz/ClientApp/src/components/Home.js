@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+//import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { LoginReg } from './LoginReg';
 import { QuizMenu } from './QuizMenu';
 

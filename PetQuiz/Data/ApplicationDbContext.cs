@@ -24,5 +24,7 @@ namespace PetQuiz
 
         public DbSet<User> Users { get; set; }
         public DbSet<QnA> Questions { get; set; }
+        public DbSet<HighScore> HighScores { get; set; }
+
     }
 }

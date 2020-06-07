@@ -35,7 +35,7 @@ namespace PetQuiz.Controllers
         [Route("/register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var result = await userManager.CreateAsync(new User {UserName = request.Email }, request.Password);
+            IdentityResult result = await userManager.CreateAsync(new User {UserName = request.Email }, request.Password);
             if (result.Succeeded)
             {
                 return Ok();

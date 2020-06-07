@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button } from 'reactstrap';
 
 
 export class GameScore extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            username: '',
+            score: '',
+            time: ''            
+        };
+        this.goBack = this.goBack.bind(this)
+    }
+
+    goBack() {
+        this.props.toMenu();
     }
 
     render() {
@@ -14,7 +23,7 @@ export class GameScore extends Component {
             <div>
                 <h1>Resultat</h1>
                 <p>Din score blev {this.props.score} av 5!</p>
-                
+                <Button color="info" onClick={this.goBack}>Tillbaka till start</Button>
             </div>
         );
     }

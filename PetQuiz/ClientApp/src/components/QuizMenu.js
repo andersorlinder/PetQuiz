@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
-import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
-import {QuizGame} from './QuizGame'
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import {  QuizGame  } from './QuizGame';
+import { Highscore } from './Highscore';
+import {  GameScore  } from './GameScore';
 
 export class QuizMenu extends Component {
     static displayName = QuizMenu.name;
@@ -9,11 +11,13 @@ export class QuizMenu extends Component {
         super(props);
         this.state = {
             QnAs: [],
-            isPlayingQuiz: false,
-            strang: ''
+            isLoading: true,
+            switchMenuState: true
         };
         this.handleLogOut = this.handleLogOut.bind(this);
         this.setPlayState = this.setPlayState.bind(this);
+        this.setHighScoreState = this.setHighScoreState.bind(this)
+        this.backToMenu = this.backToMenu.bind(this)
     }
 
     handleLogoutSubmit = (e) => {
@@ -25,11 +29,24 @@ export class QuizMenu extends Component {
         this.props.onClick(false);
     }
 
+    backToMenu() {
+        this.setState({
+            isLoading: true
+        });
+    }
+
     setPlayState() {
         this.setState({
-            isPlayingQuiz: true
+            switchMenuState: true,
+            isLoading: false
         });
+    }
 
+    setHighScoreState() {
+        this.setState({
+            switchMenuState: false,
+            isLoading: false
+        });
     }
 
     async logout() {
@@ -46,13 +63,11 @@ export class QuizMenu extends Component {
         }
     }
 
-    
-
     content = () => {
         return (
             <div>
                 <Button outline color="primary" size="lg" onClick={this.setPlayState}>Play</Button>
-                <Button outline color="info" size="lg">Highscore</Button>
+                <Button outline color="info" size="lg" onClick={this.setHighScoreState}>Highscore</Button>
                 <Button outline color="danger" size="lg" onClick={this.handleLogoutSubmit}>Log out</Button>
             </div>
         );
@@ -61,9 +76,11 @@ export class QuizMenu extends Component {
     render() {
         return (
             <div>
-                {this.state.isPlayingQuiz ?
-                    <QuizGame username={this.props.username} /> :
-                    this.content()
+                {this.state.isLoading ?
+                    this.content() :
+                    this.state.switchMenuState ?
+                        <QuizGame username={this.props.username} toMenu={this.backToMenu}/> :
+                        <Highscore />
                 }
             </div>
         );
