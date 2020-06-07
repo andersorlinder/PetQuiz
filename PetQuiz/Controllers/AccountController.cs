@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,11 +32,10 @@ namespace PetQuiz.Controllers
         }
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
         [Route("/register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            var result = await userManager.CreateAsync(new User {UserName = request.Email }, request.Password);
+            IdentityResult result = await userManager.CreateAsync(new User {UserName = request.Email }, request.Password);
             if (result.Succeeded)
             {
                 return Ok();
@@ -49,7 +44,6 @@ namespace PetQuiz.Controllers
         }
 
         [HttpGet]
-        [IgnoreAntiforgeryToken]
         [Route("/loggedin")]
         public IActionResult Status()
         {
@@ -60,7 +54,6 @@ namespace PetQuiz.Controllers
         }
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
         [Route("/logout")]
         public async Task<IActionResult> Logout()
         {

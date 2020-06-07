@@ -35,9 +35,6 @@ export class LoginReg extends Component {
         this.props.onSubmit(true);
     }
 
-    //componentDidMount() {
-    //    this.login();
-    //}
 
     async login() {
         const loginResponse = await fetch('https://localhost:5001/login', {

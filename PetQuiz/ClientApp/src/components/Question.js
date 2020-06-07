@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import { Button} from 'reactstrap';
-import { QuizGame } from './QuizGame';
 
 export class Question extends Component {
     constructor(props) {
         super(props);
-        this.state = { QnAs: [], shuffledAnswers: [], answerstatus: '', isLoaded: false, QNr: 0, score: 0, buttonClicked: false, buttonInactive: false};
-        this.getQuestions = this.getQuestions.bind(this);
-        this.onAnswerClick = this.onAnswerClick.bind(this);
+        this.state = { QnAs: [], question: '', shuffledAnswers: [], answerstatus: '', isLoaded: false, QNr: 0, score: 0, buttonInactive: false };
         this.renderButtons = this.renderButtons.bind(this);
+        this.onAnswerClick = this.onAnswerClick.bind(this);
         this.onNextClick = this.onNextClick.bind(this);
     }
 
     async componentDidMount() {
         if (!this.state.isLoaded) {
             await this.getQuestions()
-            
-            this.setState({
-                isLoaded: true
+
+            this.setState({ 
+                isLoaded: true,
+                question: this.state.QnAs[0].Question
             });
         }
     }
@@ -36,22 +35,18 @@ export class Question extends Component {
 
         const QnAs = eval(QnAResponse);
         this.setState({
-            QnAs,
+            QnAs
         });
         this.getShuffledAnswers()
-        console.log(this.state.QnAs[0]);
-        console.log(this.state.shuffledAnswers);
     }
 
     getShuffledAnswers() {
-        console.log(this.state.QnAs);
         var array = [this.state.QnAs[this.state.QNr].CorrectAnswer, this.state.QnAs[this.state.QNr].WrongAnswerOne, this.state.QnAs[this.state.QNr].WrongAnswerTwo];
-        if (this.state.buttonInactive) {
-            this.shuffleArray(array);
-        }
+        this.shuffleArray(array);
         this.setState({
-            shuffledAnswers: array,
+            shuffledAnswers: array
         });
+
     }
 
     shuffleArray = (array) => {
@@ -59,24 +54,19 @@ export class Question extends Component {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
-
-        this.setState({
-            
-        });
-        console.log(this.state.shuffledAnswers);
     }
 
     renderButtons = () => {
         return (
             <div>
-                <h1 >{this.state.QnAs[this.state.QNr].Question}</h1>
+                <h1 >{this.state.question}</h1>
                 <div>
                     <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[0]}</Button>
                     <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[1]}</Button>
                     <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[2]}</Button>
                 </div>
-                <Button onClick={this.onNextClick}>Next Question</Button>
-                <p>{this.state.answer}</p>
+                <Button onClick={this.onNextClick} disabled={!this.state.buttonInactive}>Next Question</Button>
+                <p>{this.state.answerstatus}</p>
             </div>);
     }
 
@@ -84,27 +74,37 @@ export class Question extends Component {
         if (e.target.innerText === this.state.QnAs[this.state.QNr].CorrectAnswer) {
             this.setState({
                 buttonInactive: true,
-                score: this.state.score,
+                score: this.state.score + 1,
+                QNr: this.state.QNr + 1,
                 answerstatus: 'Korrekt!'
             });
         } else {
             this.setState({
                 buttonInactive: true,
+                QNr: this.state.QNr + 1,
                 answerstatus: 'Fel svar!'
             })
         }
     }
 
     onNextClick() {
-
         if (this.state.QNr >= 5) {
             this.props.onClick(this.state.score, false);
-        } else {
-
             this.setState({
                 isLoaded: false,
-                QNr: this.state.QNr + 1,
-                answerstatus: ''
+                answerstatus: '',
+                QnAs: [],
+                QNr: 0,
+                score: 0,
+                shuffledAnswers: [],
+                buttonInactive: false
+            });
+            return;
+        } else {
+            this.setState({
+                isLoaded: false,
+                answerstatus: '',
+                question: this.state.QnAs[this.state.QNr].Question
             });
             this.getShuffledAnswers();
             this.setState({
@@ -118,7 +118,7 @@ export class Question extends Component {
         return (
             <div>
                 {!this.state.isLoaded ?
-                    <p>Loading...</p> :
+                    <p>Loading1...</p> :
                     this.renderButtons()
                 }
             </div>

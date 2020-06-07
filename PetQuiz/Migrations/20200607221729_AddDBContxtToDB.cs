@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetQuiz.Migrations
 {
-    public partial class AddedDbContextToDb : Migration
+    public partial class AddDBContxtToDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,21 @@ namespace PetQuiz.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HighScores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NickName = table.Column<string>(nullable: false),
+                    Score = table.Column<int>(nullable: false),
+                    TimePlayed = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HighScores", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,6 +258,9 @@ namespace PetQuiz.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "HighScores");
 
             migrationBuilder.DropTable(
                 name: "Questions");
