@@ -1,24 +1,53 @@
 import React, { Component } from 'react';
 import { Button} from 'reactstrap';
-import { QuizGame } from './QuizGame';
 
 export class Question extends Component {
     constructor(props) {
         super(props);
-        this.state = { isLoaded: false, question: '', correctAnswer: '', wrongAnswerOne: '', wrongAnswerTwo: '' };
-        this.onClickHandler = this.onClickHandler.bind(this);
+        this.state = { QnAs: [], question: '', shuffledAnswers: [], answerstatus: '', isLoaded: false, QNr: 0, score: 0, buttonInactive: false };
+        //this.getQuestions = this.getQuestions.bind(this);
+        this.renderButtons = this.renderButtons.bind(this);
+        this.onAnswerClick = this.onAnswerClick.bind(this);
+        this.onNextClick = this.onNextClick.bind(this);
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (!this.state.isLoaded) {
-            this.setState({
-                question: this.props.QnA.Question,
-                correctAnswer: this.props.QnA.CorrectAnswer,
-                wrongAnswerOne: this.props.QnA.WrongAnswerOne,
-                wrongAnswerTwo: this.props.QnA.WrongAnswerTwo
-            })
-            this.setState({ isLoaded: true });
+            await this.getQuestions()
+
+            this.setState({ 
+                isLoaded: true,
+                question: this.state.QnAs[0].Question
+            });
         }
+    }
+
+    async getQuestions() {
+        const QnAResponse = await fetch('https://localhost:5001/getqna', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .catch(err => this.fetchFailure(err));
+
+        const QnAs = eval(QnAResponse);
+        this.setState({
+            QnAs
+        });
+        this.getShuffledAnswers()
+    }
+
+    getShuffledAnswers() {
+        var array = [this.state.QnAs[this.state.QNr].CorrectAnswer, this.state.QnAs[this.state.QNr].WrongAnswerOne, this.state.QnAs[this.state.QNr].WrongAnswerTwo];
+        this.shuffleArray(array);
+        this.setState({
+            shuffledAnswers: array
+        });
+
     }
 
     shuffleArray = (array) => {
@@ -26,42 +55,75 @@ export class Question extends Component {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
-        return array;
     }
 
     renderButtons = () => {
-        var oldarray = [this.state.correctAnswer, this.state.wrongAnswerOne, this.state.wrongAnswerTwo];
-        var array = this.shuffleArray(oldarray);
         return (
             <div>
                 <h1 >{this.state.question}</h1>
-                <Button color="primary" size="lg" value={array[0]} onClick={this.onClickHandler}></Button>
-                <Button color="primary" size="lg" value={array[1]} onClick={this.onClickHandler}></Button>
-                <Button color="primary" size="lg" value={array[2]} onClick={this.onClickHandler}></Button>
+                <div>
+                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[0]}</Button>
+                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[1]}</Button>
+                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[2]}</Button>
+                </div>
+                <Button onClick={this.onNextClick} disabled={!this.state.buttonInactive}>Next Question</Button>
+                <p>{this.state.answerstatus}</p>
             </div>);
     }
 
-    onClickHandler(e) {
-        var score = 0;
-        if (e.value === this.correctAnswer) {
-            score++;
+    onAnswerClick(e) {
+        if (e.target.innerText === this.state.QnAs[this.state.QNr].CorrectAnswer) {
+            this.setState({
+                buttonInactive: true,
+                score: this.state.score + 1,
+                QNr: this.state.QNr + 1,
+                answerstatus: 'Korrekt!'
+            });
+        } else {
+            this.setState({
+                buttonInactive: true,
+                QNr: this.state.QNr + 1,
+                answerstatus: 'Fel svar!'
+            })
         }
-        this.setState({
-            isLoaded: false,
-            question: '',
-            correctAnswer: '',
-            wrongAnswerOne: '',
-            wrongAnswerTwo: ''
-        })
-        this.props.onClick(score);
+    }
+
+    onNextClick() {
+        console.log(this.state.QNr)
+        if (this.state.QNr >= 5) {
+            this.props.onClick(this.state.score, false);
+            this.setState({
+                isLoaded: false,
+                answerstatus: '',
+                QnAs: [],
+                QNr: 0,
+                score: 0,
+                shuffledAnswers: [],
+                buttonInactive: false
+            });
+            return;
+        } else {
+            this.setState({
+                isLoaded: false,
+                answerstatus: '',
+                question: this.state.QnAs[this.state.QNr].Question
+            });
+            console.log(this.state.QNr)
+            this.getShuffledAnswers();
+            this.setState({
+                isLoaded: true,
+                buttonInactive: false
+            });
+        }
+        console.log(this.state.QNr)
     }
 
     render() {
         return (
             <div>
-                {this.state.isLoaded ?
-                    this.renderButtons() :
-                    <p>Loading2...</p>
+                {!this.state.isLoaded ?
+                    <p>Loading1...</p> :
+                    this.renderButtons()
                 }
             </div>
         );
