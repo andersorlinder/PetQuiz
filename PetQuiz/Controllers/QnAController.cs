@@ -17,7 +17,7 @@ namespace PetQuiz.Controllers
             this.db = db;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("/getqna")]
         public async Task<ActionResult<string>> GetQuestions()
         {

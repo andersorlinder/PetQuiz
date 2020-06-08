@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Question } from './Question';
 import { GameScore } from './GameScore'
 
@@ -11,12 +10,13 @@ export class QuizGame extends Component {
         this.state = {
             isPlaying: true,
             score: 0,
-            username: 'Sofia'
+            username: ''
         };
 
         this.onClickHandler = this.onClickHandler.bind(this);
         this.goBack = this.goBack.bind(this)
     }
+
 
     async componentDidMount() {
         this.setState({
@@ -32,11 +32,11 @@ export class QuizGame extends Component {
         this.saveScore();
     }
 
-    goBack() {
+    async goBack() {
         this.props.toMenu();
-    }
-
-    async saveScore() {
+        console.log(this.state.username);
+        console.log(this.state.score);
+        console.log(this.state.isPlaying);
         const saveScoreResponse = await fetch('https://localhost:5001/savescore', {
             headers: {
                 'Accept': 'application/json',
@@ -49,6 +49,14 @@ export class QuizGame extends Component {
         if (saveScoreResponse === 200) {
             console.log("Result saved")
         }
+    }
+
+
+    saveScore() {
+        console.log(this.state.username);
+        console.log(this.state.score);
+        console.log(this.state.isPlaying);
+        
     }
 
     static fetchFailure(err) {

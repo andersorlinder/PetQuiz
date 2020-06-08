@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { LoginReg } from './LoginReg';
 import { QuizMenu } from './QuizMenu';
 
@@ -12,9 +11,10 @@ export class Home extends Component {
         this.changeLoggedIn = this.changeLoggedIn.bind(this);
     }
 
-    changeLoggedIn(status) {
+    changeLoggedIn(status, username) {
         this.setState({
-            loggedIn: status
+            loggedIn: status,
+            username
         });
     }
 
