@@ -18,6 +18,7 @@ export class QuizGame extends Component {
         this.goBack = this.goBack.bind(this)
     }
 
+
     async componentDidMount() {
         this.setState({
             username: this.props.username
@@ -32,11 +33,11 @@ export class QuizGame extends Component {
         this.saveScore();
     }
 
-    goBack() {
+    async goBack() {
         this.props.toMenu();
-    }
-
-    async saveScore() {
+        console.log(this.state.username);
+        console.log(this.state.score);
+        console.log(this.state.isPlaying);
         const saveScoreResponse = await fetch('https://localhost:5001/savescore', {
             headers: {
                 'Accept': 'application/json',
@@ -49,6 +50,14 @@ export class QuizGame extends Component {
         if (saveScoreResponse === 200) {
             console.log("Result saved")
         }
+    }
+
+
+    saveScore() {
+        console.log(this.state.username);
+        console.log(this.state.score);
+        console.log(this.state.isPlaying);
+        
     }
 
     static fetchFailure(err) {
