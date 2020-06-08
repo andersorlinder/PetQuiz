@@ -32,7 +32,7 @@ export class LoginReg extends Component {
     }
 
     handleLogIn() {
-        this.props.onSubmit(true);
+        this.props.onSubmit(true, this.state.username);
     }
 
 

@@ -12,9 +12,10 @@ export class Home extends Component {
         this.changeLoggedIn = this.changeLoggedIn.bind(this);
     }
 
-    changeLoggedIn(status) {
+    changeLoggedIn(status, username) {
         this.setState({
-            loggedIn: status
+            loggedIn: status,
+            username
         });
     }
 
