@@ -10,7 +10,7 @@ export class QuizGame extends Component {
         this.state = {
             isPlaying: true,
             score: 0,
-            username: 'Sofia'
+            username: ''
         };
 
         this.onClickHandler = this.onClickHandler.bind(this);

@@ -5,7 +5,6 @@ export class Question extends Component {
     constructor(props) {
         super(props);
         this.state = { QnAs: [], question: '', shuffledAnswers: [], answerstatus: '', isLoaded: false, QNr: 0, score: 0, buttonInactive: false };
-        //this.getQuestions = this.getQuestions.bind(this);
         this.renderButtons = this.renderButtons.bind(this);
         this.onAnswerClick = this.onAnswerClick.bind(this);
         this.onNextClick = this.onNextClick.bind(this);
@@ -28,7 +27,7 @@ export class Question extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            method: 'POST',
+            method: 'GET',
             credentials: 'include'
         })
             .then(response => response.json())

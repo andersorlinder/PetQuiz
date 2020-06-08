@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PetQuiz.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,70 +41,13 @@ namespace PetQuiz.Controllers
         [Route("/getHS")]
         public async Task<ActionResult<String>> Get()
         {
-            var userScore = await db.HighScores.OrderByDescending(m => m.Score)
-                .ThenByDescending(m => m.TimePlayed)
-                .Select(m => new { m.NickName, m.Score, m.TimePlayed })
+            var userScore = await db.HighScores
+                .OrderByDescending(m => m.Score)
+                .ThenBy(m => m.TimePlayed)
                 .ToListAsync();
             var jsonRespons = JsonConvert.SerializeObject(userScore);
-            return Ok(jsonRespons); ;
+            return Ok(jsonRespons);
         }
 
-        // POST: HighScoreController/Create
-        //[HttpPost]
-        //[Route("/savescore")]
-        //public async Task<IActionResult> Create(IFormCollection collection)
-        //{
-
-        //try
-        //{
-        //    return RedirectToAction(nameof(Index));
-        //}
-        //catch
-        //{
-        //    return View();
-        //}
     }
-
-        // GET: HighScoreController/Edit/5
-    //    public ActionResult Edit(int id)
-    //    {
-    //        return View();
-    //    }
-
-    //    // POST: HighScoreController/Edit/5
-    //    [HttpPost]
-    //    [ValidateAntiForgeryToken]
-    //    public ActionResult Edit(int id, IFormCollection collection)
-    //    {
-    //        try
-    //        {
-    //            return RedirectToAction(nameof(Index));
-    //        }
-    //        catch
-    //        {
-    //            return View();
-    //        }
-    //    }
-
-    //    // GET: HighScoreController/Delete/5
-    //    public ActionResult Delete(int id)
-    //    {
-    //        return View();
-    //    }
-
-    //    // POST: HighScoreController/Delete/5
-    //    [HttpPost]
-    //    [ValidateAntiForgeryToken]
-    //    public ActionResult Delete(int id, IFormCollection collection)
-    //    {
-    //        try
-    //        {
-    //            return RedirectToAction(nameof(Index));
-    //        }
-    //        catch
-    //        {
-    //            return View();
-    //        }
-    //    }
-    //}
 }

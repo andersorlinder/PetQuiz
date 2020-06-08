@@ -2,7 +2,6 @@
 import { Button } from 'reactstrap';
 import {  QuizGame  } from './QuizGame';
 import { Highscore } from './Highscore';
-import {  GameScore  } from './GameScore';
 
 export class QuizMenu extends Component {
     static displayName = QuizMenu.name;
