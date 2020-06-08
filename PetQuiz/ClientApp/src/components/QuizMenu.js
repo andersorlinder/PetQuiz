@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button } from 'reactstrap';
 import {  QuizGame  } from './QuizGame';
 import { Highscore } from './Highscore';
 import {  GameScore  } from './GameScore';
@@ -80,7 +80,7 @@ export class QuizMenu extends Component {
                     this.content() :
                     this.state.switchMenuState ?
                         <QuizGame username={this.props.username} toMenu={this.backToMenu}/> :
-                        <Highscore />
+                        <Highscore toMenu={this.backToMenu}/>
                 }
             </div>
         );

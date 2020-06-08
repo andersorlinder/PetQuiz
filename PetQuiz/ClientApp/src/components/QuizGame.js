@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { NavLink, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import { Question } from './Question';
 import { GameScore } from './GameScore'
 

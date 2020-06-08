@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PetQuiz.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PetQuiz.Controllers
@@ -16,7 +20,6 @@ namespace PetQuiz.Controllers
             this.db = db;
         }
 
-        // GET: HighScoreController/Create
         [HttpPost]
         [Route("/savescore")]
         public async Task<IActionResult> Create([FromBody] HighScoreRequest request)
@@ -36,22 +39,33 @@ namespace PetQuiz.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        [Route("/getHS")]
+        public async Task<ActionResult<String>> Get()
+        {
+            var userScore = await db.HighScores.OrderByDescending(m => m.Score)
+                .ThenByDescending(m => m.TimePlayed)
+                .Select(m => new { m.NickName, m.Score, m.TimePlayed })
+                .ToListAsync();
+            var jsonRespons = JsonConvert.SerializeObject(userScore);
+            return Ok(jsonRespons); ;
+        }
 
         // POST: HighScoreController/Create
         //[HttpPost]
         //[Route("/savescore")]
         //public async Task<IActionResult> Create(IFormCollection collection)
         //{
-           
-            //try
-            //{
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //catch
-            //{
-            //    return View();
-            //}
-        }
+
+        //try
+        //{
+        //    return RedirectToAction(nameof(Index));
+        //}
+        //catch
+        //{
+        //    return View();
+        //}
+    }
 
         // GET: HighScoreController/Edit/5
     //    public ActionResult Edit(int id)
