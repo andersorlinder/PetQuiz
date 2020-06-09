@@ -8,7 +8,7 @@ export class NavMenu extends Component {
     render() {
         return (
             <header>
-                <img src={logo} />
+                <img alt="PetQuizLogo" src={logo} />
             </header>
         );
     }

@@ -23,7 +23,6 @@ namespace PetQuiz.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var result = await signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
-            Console.WriteLine(result);
             if (result.Succeeded)
             {
                 return Ok();
@@ -41,16 +40,6 @@ namespace PetQuiz.Controllers
                 return Ok();
             }
             return BadRequest();
-        }
-
-        [HttpGet]
-        [Route("/loggedin")]
-        public IActionResult Status()
-        {
-            if (User.Identity.IsAuthenticated)
-                return Ok();
-
-            return Unauthorized();
         }
 
         [HttpPost]

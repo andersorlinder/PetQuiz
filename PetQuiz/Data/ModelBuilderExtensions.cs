@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetQuiz.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PetQuiz.Data
 {

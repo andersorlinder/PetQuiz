@@ -19,8 +19,8 @@ namespace PetQuiz.Controllers
         }
 
         [HttpPost]
-        [Route("/savescore")]
-        public async Task<IActionResult> Create([FromBody] HighScoreRequest request)
+        [Route("/score")]
+        public async Task<IActionResult> PostScore([FromBody] HighScoreRequest request)
         {
             HighScore highscore = new HighScore
             {
@@ -38,8 +38,8 @@ namespace PetQuiz.Controllers
         }
 
         [HttpGet]
-        [Route("/getHS")]
-        public async Task<ActionResult<String>> Get()
+        [Route("/highscores")]
+        public async Task<ActionResult<String>> GetHighScores()
         {
             var userScore = await db.HighScores
                 .OrderByDescending(m => m.Score)
