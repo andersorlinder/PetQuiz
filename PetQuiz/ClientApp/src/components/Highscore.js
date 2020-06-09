@@ -7,7 +7,7 @@ export class Highscore extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userScore: []
+            userScores: []
         };
         this.goBack = this.goBack.bind(this)
     }
@@ -17,7 +17,7 @@ export class Highscore extends Component {
     }
 
     async getHighscoreasync() {
-        const getHSResponse = await fetch('https://localhost:5001/geths', {
+        const highScoreResponse = await fetch('https://localhost:5001/highscores', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -27,9 +27,9 @@ export class Highscore extends Component {
         })
             .then(response => response.json())
             .catch(err => this.fetchFailure(err));
-        const userScore = eval(getHSResponse);
+        const userScores = JSON.parse(highScoreResponse);
         this.setState({
-            userScore
+            userScores
         });
 
     }
@@ -46,19 +46,19 @@ export class Highscore extends Component {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Nickname</th>
-                            <th>Score</th>
-                            <th>Date</th>
+                            <th>Epost</th>
+                            <th>Poäng</th>
+                            <th>Tillfälle</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {this.state.userScore.map((score, i) => {
+                        {this.state.userScores.map((score, i) => {
                             return (
                                 <tr key={i}>
                                     <th scope="row">{i + 1}</th>
                                     <td>{score.NickName}</td>
                                     <td>{score.Score}</td>
-                                    <td>{score.TimePlayed}</td>
+                                    <td>{new Date(score.TimePlayed).toLocaleString()}</td>
                                 </tr>
                             );
                         })}

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using PetQuiz.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,13 +20,16 @@ namespace PetQuiz.Controllers
         }
 
         [HttpGet]
-        [Route("/getqna")]
+        [Route("/questions")]
         public async Task<ActionResult<string>> GetQuestions()
         {
+            var allQnAList = await db.Questions.ToListAsync();
             var rnd = new Random();
-            var allQnA = await db.Questions.ToListAsync();
-            var fiveQnA = allQnA.OrderBy(qna => rnd.Next()).Take(5).ToList();
-            var jsonRespons = JsonConvert.SerializeObject(fiveQnA);
+            var fiveQnAList = allQnAList
+                .OrderBy(qna => rnd.Next())
+                .Take(5)
+                .ToList();
+            var jsonRespons = JsonConvert.SerializeObject(fiveQnAList);
 
             return Ok(jsonRespons);
         }

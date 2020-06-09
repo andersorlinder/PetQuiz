@@ -1,5 +1,4 @@
-﻿
-namespace PetQuiz
+﻿namespace PetQuiz
 {
     public class LoginRequest
     {

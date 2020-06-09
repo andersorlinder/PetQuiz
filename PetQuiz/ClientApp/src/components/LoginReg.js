@@ -8,7 +8,8 @@ export class LoginReg extends Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            registerstatus: ''
         }
         this.handleLogIn = this.handleLogIn.bind(this);
     }
@@ -49,6 +50,11 @@ export class LoginReg extends Component {
         if (loginResponse.status === 200) {
             this.handleLogIn()
         }
+        else {
+            this.setState({
+                signInStatus: 'Felaktig epost eller lösenord'
+            });
+        }
     }
 
     async register() {
@@ -64,21 +70,27 @@ export class LoginReg extends Component {
         if (registerResponse.status === 200) {
             this.login();
         }
+        else {
+            this.setState({
+                signInStatus: 'Epost redan registrerad eller serverfel'
+            });
+        }
     }
 
     render() {
         return (
             <Form>
                 <FormGroup>
-                    <Label for="exampleEmail">Email</Label>
+                    <Label for="exampleEmail">Epost</Label>
                     <Input type="email" name="email" id="exampleEmail" onChange={this.onUsernameChange} required />
                 </FormGroup>
                 <FormGroup>
-                    <Label for="examplePassword">Password</Label>
+                    <Label for="examplePassword">Lösenord</Label>
                     <Input type="password" name="password" id="examplePassword" onChange={this.onPasswordChange} required/>
                 </FormGroup>
-                <Button onClick={this.handleLoginSubmit}>Log in</Button>
-                <Button onClick={this.handleRegisterSubmit}>Register</Button>
+                <Button onClick={this.handleLoginSubmit}>Logga in</Button>
+                <Button onClick={this.handleRegisterSubmit}>Registrera</Button>
+                <p>{this.state.signInStatus}</p>
             </Form>
         );
     }

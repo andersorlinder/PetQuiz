@@ -4,7 +4,15 @@ import { Button} from 'reactstrap';
 export class Question extends Component {
     constructor(props) {
         super(props);
-        this.state = { QnAs: [], question: '', shuffledAnswers: [], answerstatus: '', isLoaded: false, QNr: 0, score: 0, buttonInactive: false };
+        this.state = {
+            QnAs: [],
+            question: '',
+            shuffledAnswers: [],
+            answerstatus: '',
+            isLoaded: false,
+            QNr: 0, score: 0,
+            buttonInactive: false
+        };
         this.renderButtons = this.renderButtons.bind(this);
         this.onAnswerClick = this.onAnswerClick.bind(this);
         this.onNextClick = this.onNextClick.bind(this);
@@ -22,7 +30,7 @@ export class Question extends Component {
     }
 
     async getQuestions() {
-        const QnAResponse = await fetch('https://localhost:5001/getqna', {
+        const QnAResponse = await fetch('https://localhost:5001/questions', {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -33,7 +41,7 @@ export class Question extends Component {
             .then(response => response.json())
             .catch(err => this.fetchFailure(err));
 
-        const QnAs = eval(QnAResponse);
+        const QnAs = JSON.parse(QnAResponse);
         this.setState({
             QnAs
         });
@@ -41,7 +49,11 @@ export class Question extends Component {
     }
 
     getShuffledAnswers() {
-        var array = [this.state.QnAs[this.state.QNr].CorrectAnswer, this.state.QnAs[this.state.QNr].WrongAnswerOne, this.state.QnAs[this.state.QNr].WrongAnswerTwo];
+        var array = [
+            this.state.QnAs[this.state.QNr].CorrectAnswer,
+            this.state.QnAs[this.state.QNr].WrongAnswerOne,
+            this.state.QnAs[this.state.QNr].WrongAnswerTwo
+        ];
         this.shuffleArray(array);
         this.setState({
             shuffledAnswers: array
@@ -59,13 +71,37 @@ export class Question extends Component {
     renderButtons = () => {
         return (
             <div>
-                <h1 >{this.state.question}</h1>
+                <h1>{this.state.question}</h1>
                 <div>
-                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[0]}</Button>
-                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[1]}</Button>
-                    <Button color="primary" size="lg" onClick={this.onAnswerClick} disabled={this.state.buttonInactive} >{this.state.shuffledAnswers[2]}</Button>
+                    <Button
+                        color="primary"
+                        size="lg"
+                        onClick={this.onAnswerClick}
+                        disabled={this.state.buttonInactive} >
+                        {this.state.shuffledAnswers[0]}
+                    </Button>
+                    <Button
+                        color="primary"
+                        size="lg"
+                        onClick={this.onAnswerClick}
+                        disabled={this.state.buttonInactive} >
+                        {this.state.shuffledAnswers[1]}
+                    </Button>
+                    <Button
+                        color="primary"
+                        size="lg"
+                        onClick={this.onAnswerClick}
+                        disabled={this.state.buttonInactive} >
+                        {this.state.shuffledAnswers[2]}
+                    </Button>
                 </div>
-                <Button onClick={this.onNextClick} disabled={!this.state.buttonInactive}>Next Question</Button>
+                <Button
+                    color="success"
+                    size="lg"
+                    onClick={this.onNextClick}
+                    disabled={!this.state.buttonInactive} >
+                    Gå vidare
+                </Button>
                 <p>{this.state.answerstatus}</p>
             </div>);
     }
@@ -88,7 +124,6 @@ export class Question extends Component {
     }
 
     onNextClick() {
-        console.log(this.state.QNr)
         if (this.state.QNr >= 5) {
             this.props.onClick(this.state.score, false);
             this.setState({
@@ -107,14 +142,12 @@ export class Question extends Component {
                 answerstatus: '',
                 question: this.state.QnAs[this.state.QNr].Question
             });
-            console.log(this.state.QNr)
             this.getShuffledAnswers();
             this.setState({
                 isLoaded: true,
                 buttonInactive: false
             });
         }
-        console.log(this.state.QNr)
     }
 
     render() {

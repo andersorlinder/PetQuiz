@@ -1,4 +1,3 @@
-
 namespace PetQuiz
 {
     public class HighScoreRequest

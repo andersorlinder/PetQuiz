@@ -65,9 +65,11 @@ export class QuizMenu extends Component {
     content = () => {
         return (
             <div>
-                <Button outline color="primary" size="lg" onClick={this.setPlayState}>Play</Button>
+                <h1>Välkommen!</h1>
+                <h3>{this.props.username}</h3>
+                <Button outline color="primary" size="lg" onClick={this.setPlayState}>Spela</Button>
                 <Button outline color="info" size="lg" onClick={this.setHighScoreState}>Highscore</Button>
-                <Button outline color="danger" size="lg" onClick={this.handleLogoutSubmit}>Log out</Button>
+                <Button outline color="danger" size="lg" onClick={this.handleLogoutSubmit}>Logga ut</Button>
             </div>
         );
     }

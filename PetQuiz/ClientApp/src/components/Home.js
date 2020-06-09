@@ -29,7 +29,7 @@ export class Home extends Component {
             login = <LoginReg loggedIn={this.state.loggedIn} onSubmit={this.changeLoggedIn} />;
         }
         return (
-            <div>
+            <div align="center">
                 {login}
                 {greeting}
             </div>
